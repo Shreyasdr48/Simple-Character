@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Loan Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        #propertyTypeField {
+            display: none;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Common Loan Calculator</h1>
+
+    <form action="/common_loan_calculator" method="get">
+        <label for="principal">Principal:</label>
+        <input type="number" name="principal" id="principal" value="0">
+
+        <label for="compounding_frequency">Compounding Frequency:</label>
+        <input type="number" name="compounding_frequency" id="compounding_frequency" value="0">
+
+        <label for="loan_type">Loan Type:</label>
+        <select name="loan_type" id="loan_type">
+            <option value="1">Education</option>
+            <option value="2">Property</option>
+            <option value="3">Personal</option>
+        </select>
+
+        <label for="time">Time:</label>
+        <input type="number" name="time" id="time" value="0">
+
+        <!-- Additional input field for property type -->
+        <div id="propertyTypeField" style="display: none;">
+            <label for="prop_type">Property Type:</label>
+            <select name="prop_type" id="prop_type">
+                <option value="land">Land</option>
+                <option value="building">Building</option>
+            </select>
+        </div>
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    <!-- Script to show/hide property type field based on loan type selection -->
+    <script>
+        document.getElementById('loan_type').addEventListener('change', function() {
+            var propertyTypeField = document.getElementById('propertyTypeField');
+            propertyTypeField.style.display = (this.value == '2') ? 'block' : 'none';
+        });
+    </script>
+
+    <!-- Display the calculated interest -->
+    <p>Interest: {{ interest }}</p>
+
+</body>
+</html>

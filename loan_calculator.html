@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <h1>Loan Calculator</h1>
+
+    <form id="loanForm" action="/loan_calculator" method="post">
+        <label for="principal">Principal:</label>
+        <input type="number" name="principal" id="principal" value="{{ principal }}">
+
+        <label for="rate">Interest Rate (%):</label>
+        <input type="number" name="rate" id="rate" value="{{ rate }}">
+
+        <label for="time">Time (years):</label>
+        <input type="number" name="time" id="time" value="{{ time }}">
+
+        <label for="compounding_frequency">Compounding Frequency:</label>
+        <input type="number" name="compounding_frequency" id="compounding_frequency" value="{{ compounding_frequency }}">
+
+        <label for="show_graph">Show Graph:</label>
+        <input type="checkbox" name="show_graph" id="show_graph">
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    <!-- Display the calculated compound interest -->
+    <p id="compound_interest">Compound Interest: {{ compound_interest }}</p>
+
+    <!-- Always include the canvas element -->
+    <div>
+        <canvas id="chart"></canvas>
+    </div>
+
+    <script>
+        document.getElementById('loanForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            // Your existing logic to calculate compound interest
+            var principal = parseFloat(document.getElementById('principal').value);
+            var rate = parseFloat(document.getElementById('rate').value);
+            var time = parseInt(document.getElementById('time').value);
+            var compoundingFrequency = parseFloat(document.getElementById('compounding_frequency').value);
+    
+            var compoundInterest = calculateCompoundInterest(principal, rate, time, compoundingFrequency);
+    
+            // Display the calculated compound interest
+            document.getElementById('compound_interest').innerText = 'Compound Interest: ' + compoundInterest;
+    
+            // Check if the "Show Graph" button is checked
+            var showGraph = document.getElementById('show_graph').checked;
+    
+            // If the "Show Graph" button is checked, draw the chart
+            if (showGraph) {
+                drawChart(compoundInterest);
+            }
+        });
+    
+        function calculateCompoundInterest(principal, rate, time, compoundingFrequency) {
+            // Your logic to calculate compound interest
+            var amount = principal * Math.pow(1 + rate / (compoundingFrequency * 100), compoundingFrequency * time);
+            var compoundInterest = amount - principal;
+            return compoundInterest;
+        }
+    
+        function drawChart(compoundInterest) {
+            // Your logic to generate chart data
+            var labels = ['Year 1', 'Year 2', 'Year 3']; // Replace with your labels
+            var data = [compoundInterest / 2, compoundInterest, compoundInterest * 1.5]; // Replace with your data
+    
+            // Create the chart
+            var ctx = document.getElementById('chart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Compound Interest Over Time',
+                        data: data,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: [{
+                            type: 'linear',
+                            position: 'bottom'
+                        }],
+                        y: [{
+                            type: 'linear',
+                            position: 'left'
+                        }]
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

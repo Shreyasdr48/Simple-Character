@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <title>Banker Page</title>
+</head>
+<body>
+    <h2>Loan Status:</h2>
+    <p>{{ loan_status }}</p>
+    <div class="container">
+        <h1>Welcome Banker!</h1>
+        <form action="{{ url_for('loan_calculator') }}" method="post">
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+
+            <label for="job_hazardous">Is your job hazardous?</label>
+            <select id="job_hazardous" name="job_hazardous" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+
+            <label for="salary">Salary:</label>
+            <input type="number" id="salary" name="salary" required>
+
+            <label for="job_type">Job Type:</label>
+            <select id="job_type" name="job_type" required>
+                <option value="1">Public Employee</option>
+                <option value="2">Corporate Employee</option>
+            </select>
+
+            <!-- New input fields for banker information -->
+            <label for="years_of_experience">Years of Experience:</label>
+            <input type="number" id="years_of_experience" name="years_of_experience" required>
+
+            <label for="current_position">Current Position:</label>
+            <input type="text" id="current_position" name="current_position" required>
+
+            <label for="pension">Do you have a pension scheme?</label>
+            <select id="pension" name="pension" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <label for="principal_amount">Principal Amount:</label>
+            <input type="number" id="principal_amount" name="principal_amount" required>
+            
+            <label for="rate">Rate (%):</label>
+            <input type="number" id="rate" name="rate" required>
+
+            <label for="compounding_frequency">Compounding_Frequency:</label>
+            <input type="number" id="compounding_frequenc" name="compounding_frequenc" required>
+            
+            <label for="time">time:</label>
+            <input type="number" id="time" name="time" required>
+        </form>
+        <form method="post" action="/banker">
+            <button type="submit">Submit</button>
+        </form>
+        
+        
+    </div>
+
+
+</body>
+</html>

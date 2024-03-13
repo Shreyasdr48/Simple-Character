@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #555;
+        }
+
+        p {
+            color: #777;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #additionalFields {
+            display: none;
+        }
+    </style>
+    <title>Salary-based Loan Advisor</title>
+</head>
+<body>
+
+    <h1>Salary Advisor</h1>
+
+    <p id="loan_status">Loan Status: {{ loan_status }}</p>
+
+    <!-- Input Forms Section -->
+    <h2>Input Forms</h2>
+    <form action="/salary_advisor" method="get">
+        <!-- Add input fields for user input -->
+        <label for="age_left">Age Left:</label>
+        <input type="number" name="age_left" id="age_left" value="0">
+
+        <label for="annual_salary">Annual Salary:</label>
+        <input type="number" name="annual_salary" id="annual_salary" value="0">
+
+        <label for="time">Time:</label>
+        <input type="number" name="time" id="time" value="0">
+
+        <label for="asset_choice">Consider Assets (yes/no):</label>
+        <input type="text" name="asset_choice" id="asset_choice" value="">
+
+        <button type="button" onclick="calculateLoan()">Submit</button>
+    </form>
+
+    <!-- JavaScript for Calculation -->
+    <script>
+        function calculateLoan() {
+            // Basic example, you might want to improve this based on your calculations
+            var ageLeft = parseInt(document.getElementById('age_left').value);
+            var annualSalary = parseInt(document.getElementById('annual_salary').value);
+            var time = parseInt(document.getElementById('time').value);
+            var assetChoice = document.getElementById('asset_choice').value.toLowerCase();
+
+            var finalAmount = annualSalary + calculateCompoundInterest(annualSalary, annualSalary, time, annualSalary);
+            var depreciation = 0.6 * ageLeft * annualSalary;
+
+            // Add your loan status logic here and update the loan_status element
+            var loanStatus = (finalAmount > depreciation) ? "Loan is safe to be taken" : "Loan is not possible";
+            document.getElementById('loan_status').innerHTML = "Loan Status: " + loanStatus;
+
+            // Show additional fields if asset_choice is "yes"
+            if (assetChoice === "yes") {
+                document.getElementById('additionalFields').style.display = 'block';
+            } else {
+                document.getElementById('additionalFields').style.display = 'none';
+            }
+        }
+
+        // You might want to define your compound interest calculation function
+        function calculateCompoundInterest(princi, rate, time, cfreq) {
+            // Add your compound interest calculation logic here
+            // For now, returning a placeholder value
+            return princi * Math.pow(1 + rate / cfreq, cfreq * time) - princi;
+        }
+    </script>
+
+</body>
+</html>
